@@ -1,0 +1,36 @@
+<app-header></app-header>
+<app-banner [name]="'Uitjes planner'"></app-banner>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Suggestie aanmaken</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" class="row g-0 justify-content-center gap-2">
+          <div class="form-floating col-12">
+            <input type="text" class="form-control" placeholder="Naam:">
+            <label for="">Naam:</label>
+          </div>
+          <div class="form-floating col-12">
+            <input type="text" class="form-control" placeholder="Naam:">
+            <label for="">Naam:</label>
+          </div>
+          <div class="form-floating col-12">
+            <textarea cols="6" rows="30" type="text" class="form-control" placeholder="Beschrijving:"></textarea>
+            <label for="">Beschrijving:</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn text-white" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)"><span style="margin-right: 16px;">Suggestie versturen</span><i class="fa-solid fa-arrow-right-long"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

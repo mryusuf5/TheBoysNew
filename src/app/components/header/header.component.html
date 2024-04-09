@@ -13,9 +13,9 @@
 
       <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between w-100 buttons">
         <a class="text-black btn" routerLink="/home">Home</a>
-        <a class="text-black btn" routerLink="">Logout</a>
+        <a class="text-black btn" routerLink="/home" *ngIf="isManager">Polls</a>
+        <a class="text-black btn" (click)="logout()">Logout</a>
       </div>
-
     </div>
   </div>
 </nav>

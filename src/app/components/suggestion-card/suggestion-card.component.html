@@ -1,0 +1,38 @@
+<div class="card border border-primary">
+  <div class="card-title p-2 rounded" style="margin-bottom: 0 !important">
+    <i class="fa-solid fa-pen text-primary"></i>&nbsp;
+    {{title}}
+    <hr style="margin: 0 !important">
+  </div>
+  <div class="card-body">
+    <img src="assets/img/login-image.jpg" class="w-100" *ngIf="!image" alt="" style="height: 150px !important; object-fit: contain">
+    <img src="http://localhost:5008/{{image}}" class="w-100" *ngIf="image" alt="" style="height: 150px !important; object-fit: contain">
+  </div>
+  <span class="m-2 p-2 rounded">
+    <i class="fa-regular fa-user text-primary"></i>&nbsp;{{creatorName}}
+    <hr style="margin: 0 !important">
+  </span>
+  <div class="card-footer">
+    <button data-bs-toggle="modal" [attr.data-bs-target]="'#modal-' + id" class="btn btn-primary w-100" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">Bekijken</button>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModal"></button>
+      </div>
+      <div class="modal-body">
+        <img class="w-100" *ngIf="!image" src="assets/img/login-image.jpg" alt="">
+        <img class="w-100" *ngIf="image" src="http://localhost:5008/{{image}}" alt="">
+        <div class="" [innerHTML]="description">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn text-white" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)"><span style="margin-right: 16px;">Suggestie versturen</span><i class="fa-solid fa-arrow-right-long"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

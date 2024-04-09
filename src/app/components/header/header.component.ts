@@ -11,9 +11,24 @@ import {RouterModule} from "@angular/router";
 })
 export class HeaderComponent {
   public toggler: boolean = false;
+  public isManager: boolean = false;
+
+  public ngOnInit()
+  {
+    if(window.localStorage.getItem("isManager") == "1")
+    {
+      this.isManager = true;
+    }
+  }
 
   toggleNavbar()
   {
     this.toggler = !this.toggler;
+  }
+
+  public logout()
+  {
+    window.localStorage.removeItem("isManager");
+    window.location.href = "";
   }
 }

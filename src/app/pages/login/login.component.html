@@ -7,7 +7,10 @@
       <div class="col-md-6 col-12 d-flex flex-column align-items-center justify-content-center" style="height: 100%; background-color: #f0f0f0f0;">
         <img src="assets/img/theboys.png" class="logo-boys" alt="" width="300">
         <br>
-        <a routerLink="/home" class="btn btn-primary w-75" style="background-image: linear-gradient(to right, #5735A7, #A2266B, #DA1B3E)">Login met Auth0</a>
+        <div class="d-flex flex-column gap-2 w-100 align-items-center">
+          <a (click)="medewerker()" class="btn btn-primary w-75" style="background-image: linear-gradient(to right, #5735A7, #A2266B, #DA1B3E)">Login met Auth0 </a>
+<!--          <a (click)="manager()" class="btn btn-primary w-75" style="background-image: linear-gradient(to right, #5735A7, #A2266B, #DA1B3E)">Login met Auth0 (manager)</a>-->
+        </div>
       </div>
     </div>
   </div>

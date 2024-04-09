@@ -1,35 +1,83 @@
 <app-header></app-header>
 <app-banner [name]="'Uitjes planner'"></app-banner>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div>
+  <div *ngIf="!suggestionDataLoaded; else dataLoaded" class="d-flex justify-content-center align-items-center" style="height: 50vh">
+    <div class="loader"></div>
+  </div>
+
+  <ng-template #dataLoaded>
+    <div class="container">
+      <div class="form-check form-switch">
+        <input (change)="togglePoll()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Poll active</label>
+      </div>
+    </div>
+
+    <div class="" *ngIf="!pollActive; else poll">
+      <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">
+          Nieuwe suggestie aanmaken
+        </button>
+      </div>
+      <div class="container mt-2">
+        <div class="row g-0 gap-4 justify-content-center">
+          <app-suggestion-card *ngFor="let suggestion of suggestionsArray" class="col-md-3 col-sm-5 col-12" [image]="suggestion.imagePath" [creatorName]="suggestion.creator.name" [id]="suggestion.id" [title]="suggestion.title" [description]="suggestion.description"></app-suggestion-card>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #poll>
+      <div class="container mt-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="row g-0 flex-column align-items-center">
+              <app-progress class="w-100" [title]="'Bowlen'" [width]="25" [votes]="2"></app-progress>
+              <app-progress class="w-100" [title]="'Cafe'" [width]="50" [votes]="7"></app-progress>
+              <app-progress class="w-100" [title]="'Laser gamen'" [width]="75" [votes]="14"></app-progress>
+              <button class="btn btn-primary col-md-5 col-12 mt-2" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">Stemmen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+  </ng-template>
+</div>
+
+
+<div class="modal fade" id="exampleModal">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Suggestie aanmaken</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModal"></button>
       </div>
       <div class="modal-body">
-        <form action="" class="row g-0 justify-content-center gap-2">
-          <div class="form-floating col-12">
-            <input type="text" class="form-control" placeholder="Naam:">
-            <label for="">Naam:</label>
+        <form action="" class="row g-0 justify-content-center gap-2" [formGroup]="suggestionForm" enctype="multipart/form-data">
+          <div class="form-group col-12">
+            <label>Naam:<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="name" formControlName="name" placeholder="Naam:">
           </div>
-          <div class="form-floating col-12">
-            <input type="text" class="form-control" placeholder="Naam:">
-            <label for="">Naam:</label>
+          <div class="form-group row g-0 flex-column align-items-center">
+            <label class="w-100">Afbeelding:</label>
+            <span *ngIf="errorMessage.length > 1" class="text-danger">{{errorMessage}}</span>
+            <input type="file" (change)="showImage($event)" class="form-control" formControlName="image">
+            <img src="{{imageSrc}}" alt="" class="my-2">
           </div>
-          <div class="form-floating col-12">
-            <textarea cols="6" rows="30" type="text" class="form-control" placeholder="Beschrijving:"></textarea>
-            <label for="">Beschrijving:</label>
+          <div class="form-group col-12">
+            <label>Beschrijving:<span class="text-danger">*</span></label>
+            <ckeditor [editor]="Editor" formControlName="description" data="<h3>Schrijf hier je bescrijving!</h3>"></ckeditor>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn text-white" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)"><span style="margin-right: 16px;">Suggestie versturen</span><i class="fa-solid fa-arrow-right-long"></i></button>
+        <button *ngIf="!sendSuggestionBool" (click)="sendSuggestion()" type="button" class="btn text-white" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)"><span style="margin-right: 16px;">Suggestie versturen</span><i class="fa-solid fa-arrow-right-long"></i></button>
+        <button *ngIf="sendSuggestionBool" type="button" class="btn text-white d-flex align-items-center gap-2" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)" disabled>
+          <span>Suggestie versturen</span>
+          <div class="spinner-border spinner-border-sm" role="status">
+          </div>
+        </button>
       </div>
     </div>
   </div>

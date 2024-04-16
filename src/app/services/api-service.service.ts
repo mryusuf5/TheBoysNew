@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class ApiServiceService {
 
-  public url: string = "http://localhost:5008/";
+  public url: string = "https://grpi528512.luna.fhict.nl/";
 
   constructor(private http: HttpClient) { }
 

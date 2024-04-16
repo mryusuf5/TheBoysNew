@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import {CommonModule} from "@angular/common";
+import {Component, Inject} from '@angular/core';
+import {CommonModule, DOCUMENT} from "@angular/common";
 import {RouterModule} from "@angular/router";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-header',
@@ -13,12 +14,24 @@ export class HeaderComponent {
   public toggler: boolean = false;
   public isManager: boolean = false;
 
+  constructor(public auth: AuthService, @Inject(DOCUMENT) public document: Document) {
+  }
+
+
   public ngOnInit()
   {
-    if(window.localStorage.getItem("isManager") == "1")
-    {
-      this.isManager = true;
-    }
+    this.auth.user$.subscribe((user) => {
+      console.log(user);
+      const id = user.sub.split("|")
+      console.log(id[1]);
+    })
+
+    this.auth.isAuthenticated$.subscribe((isAuth) => {
+      if(!isAuth)
+      {
+        window.location.href = "";
+      }
+    })
   }
 
   toggleNavbar()

@@ -13,8 +13,11 @@
 
       <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between w-100 buttons">
         <a class="text-black btn" routerLink="/home">Home</a>
-        <a class="text-black btn" routerLink="/home" *ngIf="isManager">Polls</a>
-        <a class="text-black btn" (click)="logout()">Logout</a>
+        <a class="text-black btn" (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Logout</a>
+        <a href="" *ngIf="auth.user$ | async as user">
+          {{user.name}}
+          <img src="{{user.picture}}" width="50" height="50" class="rounded-circle" style="object-fit: contain" alt="">
+        </a>
       </div>
     </div>
   </div>

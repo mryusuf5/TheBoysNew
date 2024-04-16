@@ -6,7 +6,7 @@
   </div>
   <div class="card-body">
     <img src="assets/img/login-image.jpg" class="w-100" *ngIf="!image" alt="" style="height: 150px !important; object-fit: contain">
-    <img src="http://localhost:5008/{{image}}" class="w-100" *ngIf="image" alt="" style="height: 150px !important; object-fit: contain">
+    <img src="https://grpi528512.luna.fhict.nl/{{image}}" class="w-100" *ngIf="image" alt="" style="height: 150px !important; object-fit: contain">
   </div>
   <span class="m-2 p-2 rounded">
     <i class="fa-regular fa-user text-primary"></i>&nbsp;{{creatorName}}
@@ -29,9 +29,6 @@
         <img class="w-100" *ngIf="image" src="http://localhost:5008/{{image}}" alt="">
         <div class="" [innerHTML]="description">
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn text-white" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)"><span style="margin-right: 16px;">Suggestie versturen</span><i class="fa-solid fa-arrow-right-long"></i></button>
       </div>
     </div>
   </div>

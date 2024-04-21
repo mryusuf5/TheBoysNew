@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environment/environment";
+import {retry} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,6 @@ export class UserService {
 
   public getUser(userId: string)
   {
-    return this.http.get(`${this.url}api/users?id=${userId}`);
+    return this.http.get(`${this.url}api/users?id=${userId}`).pipe(retry(3));
   }
 }

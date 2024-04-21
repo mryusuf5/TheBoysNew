@@ -11,7 +11,6 @@
   <div class="m-2 p-2">
     <div class="d-flex justify-content-between">
       <img width="35" class="rounded-circle" src="{{creatorPicture}}" alt="">
-<!--      <span>{{creatorName.length > 15 ? creatorName.substring(0, 15) + '...' : creatorName}}</span>-->
       <span style="text-overflow: ellipsis; overflow: hidden; width: 75%; white-space: nowrap;" class="text-end">{{creatorName}}</span>
     </div>
     <hr style="margin: 16px 0 0 0 !important">
@@ -25,8 +24,13 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">{{title}}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModal"></button>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          <span data-bs-toggle="modal" data-bs-target="#exampleModal"
+             (click)="helperService.setSimilarSuggestionChosen(false)"
+             class="text-info" *ngIf="helperService.getSimilarSuggestionChosen()">
+          <i class="fa-solid fa-chevron-left"></i>&nbsp;terug - </span>{{title}}
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModal" (click)="helperService.setSimilarSuggestionChosen(false)"></button>
       </div>
       <div class="modal-body">
         <img class="w-100" *ngIf="!image" src="assets/img/login-image.jpg" alt="">

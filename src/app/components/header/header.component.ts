@@ -2,10 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { AuthService } from "@auth0/auth0-angular";
-import {ApiServiceService} from "../../services/api-service.service";
 import {Creator} from "../../models/Creator";
 import {Auth0Service} from "../../services/auth0.service";
-import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-header',

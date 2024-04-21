@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, retry} from "rxjs";
 import {Suggestion} from "../models/Suggestion";
 import {environment} from "../../environment/environment";
 
@@ -15,7 +15,7 @@ export class SuggestionService {
 
   public getSuggestions(): Observable<Suggestion[]>
   {
-    return this.http.get<Suggestion[]>(`${this.url}api/Suggestions`);
+    return this.http.get<Suggestion[]>(`${this.url}api/Suggestions`).pipe(retry(3));
   }
 
   public postSuggestion(data: Suggestion, image: FormData)

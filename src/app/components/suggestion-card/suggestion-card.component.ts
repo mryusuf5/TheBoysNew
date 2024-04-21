@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {AuthService} from "@auth0/auth0-angular";
-import {ApiServiceService} from "../../services/api-service.service";
+import {HelperService} from "../../services/helper.service";
 
 @Component({
   selector: 'app-suggestion-card',
@@ -17,4 +16,12 @@ export class SuggestionCardComponent {
   @Input() image: SVGImageElement;
   @Input() creatorName: string;
   @Input() creatorPicture: string;
+
+  constructor(public helperService: HelperService) {
+  }
+
+  ngOnChanges()
+  {
+
+  }
 }

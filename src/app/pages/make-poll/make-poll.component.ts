@@ -77,7 +77,7 @@ export class MakePollComponent {
     let suggestionIds: number[] = [];
 
     this.pollForm.controls.selectedSuggestions.value.forEach((suggestion: Suggestion) => {
-      suggestionIds.push(suggestion.id)
+      suggestionIds.push(suggestion.Id)
     })
 
     console.log(suggestionIds);

@@ -13,7 +13,7 @@ import {Suggestion} from "../../models/Suggestion";
 import {ProgressComponent} from "../../components/progress/progress.component";
 import {AuthService} from "@auth0/auth0-angular";
 import {Creator} from "../../models/Creator";
-import {Similarity} from "../../models/Similarity";
+import {SuggestionWithSimilarity} from "../../models/Suggestion";
 import {Auth0Service} from "../../services/auth0.service";
 import {UserService} from "../../services/user.service";
 import {SuggestionService} from "../../services/suggestion.service";
@@ -151,9 +151,9 @@ export class HomeComponent {
     }
 
     const data: Suggestion = {
-      creatorId: this.user.sub,
-      title: this.suggestionForm.controls.name.value,
-      description: this.suggestionForm.controls.description.value,
+      CreatorId: this.user.sub,
+      Title: this.suggestionForm.controls.name.value,
+      Description: this.suggestionForm.controls.description.value,
     };
 
     const image = new FormData();
@@ -165,7 +165,7 @@ export class HomeComponent {
 
     this.sendSuggestionBool = true;
 
-    this.suggestionService.postSuggestion(data, image).subscribe((e: Similarity[]) => {
+    this.suggestionService.postSuggestion(data, image).subscribe((e: SuggestionWithSimilarity[]) => {
 
       if(e)
       {
@@ -195,9 +195,9 @@ export class HomeComponent {
   public sendSuggestionOverride()
   {
     const data: Suggestion = {
-      creatorId: this.user.sub,
-      title: this.suggestionForm.controls.name.value,
-      description: this.suggestionForm.controls.description.value,
+      CreatorId: this.user.sub,
+      Title: this.suggestionForm.controls.name.value,
+      Description: this.suggestionForm.controls.description.value,
     };
 
     const image = new FormData();

@@ -1,0 +1,40 @@
+<app-header></app-header>
+<app-banner [name]="'Uitjes planner'"></app-banner>
+
+<div class="d-flex justify-content-center">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pollModal"
+          style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">
+    Nieuwe poll aanmaken
+  </button>
+</div>
+
+<div class="modal fade" id="pollModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Poll aanmaken</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModal"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" class="row g-0 justify-content-center gap-2" [formGroup]="pollForm"
+              enctype="multipart/form-data">
+          <div class="form-group col-12">
+            <label>Datum:<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" name="datetime" formControlName="datetime">
+          </div>
+          <div class="form-group col-12">
+              <p-multiSelect placeholder="Kies max 3 uitjes" [options]="suggestionsArray" styleClass="w-100" formControlName="selectedSuggestions" optionLabel="title" selectionLimit="3" class="multiselect"></p-multiSelect>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button (click)="createPoll()" type="button" class="btn text-white"
+                style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">
+          <span style="margin-right: 16px;">Poll aanmaken</span><i class="fa-solid fa-arrow-right-long"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>

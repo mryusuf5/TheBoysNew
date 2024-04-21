@@ -6,7 +6,6 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {FormGroup, FormControl} from "@angular/forms";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {ApiServiceService} from "../../services/api-service.service";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import {SuggestionCardComponent} from "../../components/suggestion-card/suggestion-card.component";
 import {Suggestion} from "../../models/Suggestion";
@@ -18,6 +17,7 @@ import {Auth0Service} from "../../services/auth0.service";
 import {UserService} from "../../services/user.service";
 import {SuggestionService} from "../../services/suggestion.service";
 import {TeamService} from "../../services/team.service";
+import {HelperService} from "../../services/helper.service";
 
 @Component({
   selector: 'app-home',
@@ -27,14 +27,14 @@ import {TeamService} from "../../services/team.service";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  constructor(private apiService: ApiServiceService,
-              private toast: ToastrService,
+  constructor(private toast: ToastrService,
               public auth: AuthService,
               private renderer: Renderer2,
               private auth0Service: Auth0Service,
               private userService: UserService,
               private suggestionService: SuggestionService,
-              private teamService: TeamService) {
+              private teamService: TeamService,
+              private helperService: HelperService) {
   }
 
   public Editor = ClassicEditor;
@@ -53,6 +53,7 @@ export class HomeComponent {
 
   @ViewChild('closeButton') closeButton!: ElementRef;
   @ViewChild('openSimilarSuggestionsButton') openSimilarSuggestionsButton!: ElementRef;
+  @ViewChild('closeSimilarSuggestionsButton') closeSimilarSuggestionsButton!: ElementRef;
 
   public suggestionForm = new FormGroup({
     name: new FormControl(""),
@@ -65,8 +66,7 @@ export class HomeComponent {
     this.teamService.getTeam("1").subscribe((e:any) => {
       if(e)
       {
-        this.polls = e;
-        console.log(this.polls);
+        this.polls = e.poll;
         this.pollActive = true;
       }
     })
@@ -131,6 +131,10 @@ export class HomeComponent {
     this.renderer.selectRootElement(this.openSimilarSuggestionsButton.nativeElement).click();
   }
 
+  public closeSimilarSuggestionsModal() {
+    this.renderer.selectRootElement(this.closeSimilarSuggestionsButton.nativeElement).click();
+  }
+
   public togglePoll()
   {
     this.pollActive = !this.pollActive;
@@ -172,6 +176,7 @@ export class HomeComponent {
         this.similarSuggestions = e;
         setTimeout(() => {
           this.openSimilarSuggestionsModal();
+          this.sendSuggestionBool = false;
         })
         return
       }
@@ -186,7 +191,6 @@ export class HomeComponent {
       this.getSuggestions();
 
     }, (err) => {
-      console.log(err.error);
       this.sendSuggestionBool = false;
       this.toast.error("Deze uitje bestaat al!")
     })
@@ -208,11 +212,9 @@ export class HomeComponent {
     }
 
     this.suggestionService.postSuggestionOverride(data, image).subscribe((e) => {
-      console.log(e)
+      this.closeSimilarSuggestionsModal();
       this.toast.success('Suggestie verstuurd!');
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000)
+      this.getSuggestions();
     })
   }
 
@@ -234,5 +236,10 @@ export class HomeComponent {
       };
       reader.readAsDataURL(this.suggestionImage);
     }
+  }
+
+  public toggleSimirlarSuggestionChosenBool()
+  {
+    this.helperService.setSimilarSuggestionChosen(true);
   }
 }

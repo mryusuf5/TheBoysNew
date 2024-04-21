@@ -1,47 +1,77 @@
-import {Component, Inject} from '@angular/core';
-import {CommonModule, DOCUMENT} from "@angular/common";
-import {RouterModule} from "@angular/router";
-import {AuthService} from "@auth0/auth0-angular";
+import { Component, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { AuthService } from "@auth0/auth0-angular";
+import {ApiServiceService} from "../../services/api-service.service";
+import {Creator} from "../../models/Creator";
+import {Auth0Service} from "../../services/auth0.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  public toggler: boolean = false;
-  public isManager: boolean = false;
+  public dropper: boolean = false;
+  public role: any = [];
+  public user: any;
 
-  constructor(public auth: AuthService, @Inject(DOCUMENT) public document: Document) {
+  constructor(public auth: AuthService,
+              @Inject(DOCUMENT) public document: Document,
+              private auth0Service: Auth0Service) {
   }
 
+  public ngOnInit() {
 
-  public ngOnInit()
-  {
-    this.auth.user$.subscribe((user) => {
-      console.log(user);
-      const id = user.sub.split("|")
-      console.log(id[1]);
-    })
+    if(!localStorage.getItem("access_token"))
+    {
+      this.auth0Service.getAccessToken().subscribe((access: any) => {
+        localStorage.setItem("access_token", access.access_token);
+      })
+    }
+
+    if(localStorage.getItem("access_token"))
+    {
+      this.auth0Service.getAllUsers(localStorage.getItem("access_token")).subscribe((creators: Creator[]) => {
+        console.log(creators);
+        this.auth.user$.subscribe((user: any) => {
+          this.user = user;
+          creators.forEach((creator) => {
+            if(creator.user_metadata && creator.user_metadata.picture)
+            {
+              if(creator.user_id == this.user.sub)
+              {
+                this.user.picture = creator.user_metadata.picture;
+              }
+            }
+          })
+
+          this.auth0Service.getRoles(user.sub, localStorage.getItem("access_token")).subscribe((role: any) => {
+            this.role = role;
+          })
+
+        })
+
+      })
+    }
 
     this.auth.isAuthenticated$.subscribe((isAuth) => {
-      if(!isAuth)
-      {
+      if (!isAuth) {
         window.location.href = "";
       }
     })
+
+
   }
 
-  toggleNavbar()
-  {
-    this.toggler = !this.toggler;
+  public logout() {
+    this.auth.logout({ logoutParams: { returnTo: document.location.origin } });
   }
 
-  public logout()
-  {
-    window.localStorage.removeItem("isManager");
-    window.location.href = "";
+  toggleDropdown() {
+    this.dropper = !this.dropper;
   }
 }

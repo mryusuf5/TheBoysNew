@@ -1,6 +1,6 @@
 export interface Creator{
-  id: number,
-  isManager: boolean,
+  user_id: string,
+  creatorPicture: string,
   name: string,
-  team: number
+  user_metadata: any
 }

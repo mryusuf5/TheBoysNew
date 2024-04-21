@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {RouterModule, RouterOutlet} from "@angular/router";
+import {RouterModule, Router} from "@angular/router";
 import {AuthService} from "@auth0/auth0-angular";
 import {CommonModule, DOCUMENT} from "@angular/common";
 
@@ -12,7 +12,7 @@ import {CommonModule, DOCUMENT} from "@angular/common";
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(public auth: AuthService, @Inject(DOCUMENT) public document: Document) {
+  constructor(public auth: AuthService, @Inject(DOCUMENT) public document: Document, private router: Router) {
   }
 
   ngOnInit()
@@ -20,20 +20,8 @@ export class LoginComponent {
     this.auth.isAuthenticated$.subscribe((isAuth) => {
       if(isAuth)
       {
-        window.location.href = "home";
+        this.router.navigate(["/home"])
       }
     })
-  }
-
-  public medewerker()
-  {
-    window.localStorage.setItem("isManager", "0");
-    window.location.href = "home";
-  }
-
-  public manager()
-  {
-    window.localStorage.setItem("isManager", "1");
-    window.location.href = "home";
   }
 }

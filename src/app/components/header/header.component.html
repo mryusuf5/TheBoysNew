@@ -1,19 +1,24 @@
-<nav class="navbar navbar-expand-lg bg-white" data-bs-theme="dark">
-  <div class="mx-5 d-flex justify-content-between w-100">
-
-    <a routerLink="/home">
-      <img src="assets/img/theboys.png" class="" width="150" alt="">
+<nav class="navbar navbar-expand-sm bg-white sticky-sm-top" data-bs-theme="dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="assets/img/theboys.png" style="max-width: 150px; max-height: 150px;" alt="">
     </a>
-
-      <div class="dropdown position-relative">
-        <img src="{{ (auth.user$ | async)?.picture }}" alt="Dropdown button" (click)="toggleDropdown()" class="rounded-circle" width="50">
-        <div class="dropdown-menu flex-column text-center bg-white position-absolute"  [ngClass]="dropper ? 'show d-flex' : ''" style="top: 100%; right: 0;">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <img src="{{ (auth.user$ | async)?.picture }}" alt="Dropdown Button" class="rounded-circle" style="max-width: 50px; max-height: 50px; aspect-ratio: initial; object-fit: contain;">
+    </button>
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+      <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+          <a class="nav-link text-dark" routerLink="/poll-aanmaken" *ngIf="role[0]?.name == 'Manager'">Polls</a>
+        </li>
+      </ul>
+      <div class="d-flex flex-row align-items-center gap-3">
+        <div class="d-flex flex-column gap-1 text-sm-end">
           <span class="text-black" *ngIf="auth.user$ | async as user">{{ user.nickname }}</span>
-          <hr>
-          <a class="text-black dropdown-item" routerLink="/poll-aanmaken" *ngIf="role[0]?.name == 'Manager'">Polls</a>
-          <a class="text-black dropdown-item" href="#" (click)="logout()">Logout</a>
+          <a class="text-black nav-link" href="#" (click)="logout()">Logout</a>
         </div>
+        <img src="{{ (auth.user$ | async)?.picture }}" alt="Profile Image" class="rounded-circle d-none d-sm-block" style="max-width: 50px; max-height: 50px; aspect-ratio: initial; object-fit: contain;">
       </div>
-
+    </div>
   </div>
 </nav>

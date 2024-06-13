@@ -3,13 +3,13 @@ import {Suggestion} from "./Suggestion";
 import {Poll} from "./Poll";
 
 export interface Vote {
-  Id?: number,
-  User?: User,
-  UserId?: number,
-  Suggestion?: Suggestion,
-  SuggestionId?: number,
-  Poll?: Poll,
-  PollId?: number,
+  id?: number,
+  creator?: User,
+  userId?: number,
+  suggestion?: Suggestion,
+  suggestionId?: number,
+  poll?: Poll,
+  pollId?: number,
 }
 
 export interface VotesWithCount {

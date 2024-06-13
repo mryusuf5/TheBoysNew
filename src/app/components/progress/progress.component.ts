@@ -11,4 +11,11 @@ export class ProgressComponent {
   @Input() title: string;
   @Input() votes: number;
   @Input() width: number;
+  @Input() id: number;
+  @Input() voted: number;
+
+  ngOnInit()
+  {
+
+  }
 }

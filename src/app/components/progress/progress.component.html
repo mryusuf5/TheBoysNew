@@ -1,9 +1,10 @@
 <h5>{{title}}</h5>
-<div class="row g-0 gap-2 justify-content-center">
-  <div class="bg-light col-8 d-flex progress">
+<div class="row g-0 gap-2 justify-content-center align-items-center">
+  <div class="bg-light col-10 d-flex progress">
     <div class="progress rounded" style="width: {{width}}%; background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)"></div>
   </div>
-  <span class="col-2">{{votes}}&nbsp;<i class="fa-solid fa-check-to-slot"></i></span>
-  <input type="radio" class="col-1" name="vote">
+  <span class="col">{{votes}}&nbsp;<i class="fa-solid fa-check-to-slot"></i></span>
+  <input type="radio" class="col-1 input form-check" name="vote" value="{{id}}" [disabled]="voted" [checked]="voted == id">
 </div>
+<hr>
 

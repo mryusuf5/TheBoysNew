@@ -9,7 +9,9 @@ import {environment} from "../../environment/environment";
 })
 export class SuggestionService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
 
   public url: string = environment.API_URL;
 
@@ -20,11 +22,11 @@ export class SuggestionService {
 
   public postSuggestion(data: Suggestion, image: FormData)
   {
-    return this.http.post(`${this.url}api/Suggestions?title=${encodeURIComponent(data.Title)}&description=${encodeURIComponent(data.Description)}&creatorId=${encodeURIComponent(data.CreatorId)}`, image);
+    return this.http.post(`${this.url}api/Suggestions?title=${encodeURIComponent(data.title)}&description=${encodeURIComponent(data.description)}&creatorId=${encodeURIComponent(data.creatorId)}`, image);
   }
 
   public postSuggestionOverride(data: Suggestion, image: FormData)
   {
-    return this.http.post(`${this.url}api/Suggestions?title=${encodeURIComponent(data.Title)}&description=${encodeURIComponent(data.Description)}&creatorId=${encodeURIComponent(data.CreatorId)}&overrideSimilarity=true`, image);
+    return this.http.post(`${this.url}api/Suggestions?title=${encodeURIComponent(data.title)}&description=${encodeURIComponent(data.description)}&creatorId=${encodeURIComponent(data.creatorId)}&overrideSimilarity=true`, image);
   }
 }

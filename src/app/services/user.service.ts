@@ -19,7 +19,7 @@ export class UserService {
       teamId: teamId
     })
 
-    return this.http.post(`${this.url}/users?userId=${userId}&teamId=${teamId}`, null);
+    return this.http.post(`${this.url}api/users?userId=${userId}&teamId=${teamId}`, null);
   }
 
   public getUser(userId: string)

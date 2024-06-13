@@ -4,19 +4,20 @@ import {Poll} from "./Poll";
 import {Vote} from "./Vote";
 
 export interface Suggestion{
-  Id?: number,
-  Title: string,
-  Description: string,
-  ImagePath?: SVGImageElement
-  Creator?: User,
-  CreatorId?: number,
-  Tags?: Tag[],
-  Polls?: Poll[],
-  Votes?: Vote[],
+  id?: number,
+  title: string,
+  description: string,
+  imagePath?: SVGImageElement
+  creator?: User,
+  creatorId?: number,
+  tags?: Tag[],
+  polls?: Poll[],
+  votes?: Vote[],
+  width?: number
 }
 
 export interface SuggestionWithSimilarity {
-  SuggestionId: number,
-  Title: string
-  Similarity: number,
+  suggestionId: number,
+  title: string
+  similarity: number,
 }

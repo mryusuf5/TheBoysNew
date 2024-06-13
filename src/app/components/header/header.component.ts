@@ -4,6 +4,8 @@ import { RouterModule } from "@angular/router";
 import { AuthService } from "@auth0/auth0-angular";
 import {Creator} from "../../models/Creator";
 import {Auth0Service} from "../../services/auth0.service";
+import {Team} from "../../models/Team";
+import {TeamService} from "../../services/team.service";
 
 @Component({
   selector: 'app-header',
@@ -16,14 +18,15 @@ export class HeaderComponent {
   public dropper: boolean = false;
   public role: any = [];
   public user: any;
+  public users: any;
 
   constructor(public auth: AuthService,
               @Inject(DOCUMENT) public document: Document,
-              private auth0Service: Auth0Service) {
+              private auth0Service: Auth0Service,
+              private teamService: TeamService) {
   }
 
   public ngOnInit() {
-
     if(!localStorage.getItem("access_token"))
     {
       this.auth0Service.getAccessToken().subscribe((access: any) => {
@@ -33,8 +36,23 @@ export class HeaderComponent {
 
     if(localStorage.getItem("access_token"))
     {
-      this.auth0Service.getAllUsers(localStorage.getItem("access_token")).subscribe((creators: Creator[]) => {
-        console.log(creators);
+      this.auth0Service.getAllUsers(localStorage.getItem("access_token")).subscribe((creators: any) => {
+
+        this.teamService.getTeam("1").subscribe((e:Team) => {
+
+          creators.forEach((creator) => {
+            e.users.forEach((user) => {
+              if(creator.user_id == user.id)
+              {
+                creator.user = user;
+              }
+            })
+          })
+
+          this.users = creators;
+          console.log(this.users);
+        })
+
         this.auth.user$.subscribe((user: any) => {
           this.user = user;
           creators.forEach((creator) => {

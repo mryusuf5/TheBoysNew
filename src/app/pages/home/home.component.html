@@ -11,7 +11,7 @@
     <div class="d-flex justify-content-center">
       <div class="container row gap-2 my-4" [ngClass]="pollActive ? 'justify-content-md-between justify-content-center' : 'justify-content-center'">
         <button type="button" *ngIf="pollActive" class="btn btn-primary col-11 col-md-3" data-bs-toggle="modal" data-bs-target="#pollModal" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7); min-width: 271px;">
-          Poll
+          Poll bekijken
         </button>
         <button type="button" class="btn btn-primary col-11 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">
           Nieuwe suggestie aanmaken
@@ -20,8 +20,8 @@
     </div>
 
     <div class="container mt-2">
-      <div class="row g-0 gap-4 justify-content-center">
-        <app-suggestion-card *ngFor="let suggestion of suggestionsArray" class="col-lg-3 col-md-5 col-11" [image]="suggestion.imagePath" [creatorName]="suggestion.creator.name" [creatorPicture]="suggestion.creator.creatorPicture" [id]="suggestion.id" [title]="suggestion.title" [description]="suggestion.description"></app-suggestion-card>
+      <div class="row g-0 gap-4 justify-content-center" *ngIf="suggestionsArray && suggestionsArray.length > 0">
+        <app-suggestion-card *ngFor="let suggestion of suggestionsArray" class="col-lg-3 col-md-5 col-11" [image]="suggestion.imagePath" [creatorName]="suggestion.creator?.name" [creatorPicture]="suggestion.creator?.picture" [id]="suggestion.id" [title]="suggestion.title" [description]="suggestion.description"></app-suggestion-card>
       </div>
     </div>
   </ng-template>
@@ -51,6 +51,26 @@
             <label>Beschrijving:<span class="text-danger">*</span></label>
             <ckeditor [editor]="Editor" formControlName="description" data="<h3>Schrijf hier je bescrijving!</h3>"></ckeditor>
           </div>
+
+          <div class="mt-3 d-flex flex-column gap-2">
+            <div class="d-flex gap-2 flex-wrap">
+              <span (click)="removeTag(tag)" *ngFor="let tag of tags" class="btn btn-sm btn-outline-primary rounded-pill px-2" style="text-transform: none">
+                {{ tag }}
+              </span>
+            </div>
+            <div class="form-floating">
+              <input type="text" placeholder="Typ hier je tags" id="inputTags" (keydown.enter)="addTagFromButton()" class="form-control">
+              <label>Typ hier je tags</label>
+            </div>
+            <small class="text-muted">Klik op de tag om hem te verwijderen</small>
+            <button class="addTagButton btn text-white" (click)="addTagFromButton()" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7); max-width: 242px;">
+              Voeg tag toe
+            </button>
+          </div>
+          <div class="removeAll text-end py-3">
+            <button class="btn btn-sm btn-danger" (click)="removeAllTags()">Verwijder alle tags</button>
+          </div>
+
         </form>
       </div>
       <div class="modal-footer">
@@ -96,11 +116,11 @@
           <div class="card">
             <div class="card-body">
               <div class="row g-0 flex-column align-items-center" *ngIf="polls">
-                <app-progress *ngFor="let poll of polls.suggestions" class="w-100" [title]="poll.title" [width]="0" [votes]="poll.votes.length"></app-progress>
+                <app-progress *ngFor="let poll of polls.suggestions" class="w-100" [voted]="userVotedId" [title]="poll.title" [id]="poll.id" [width]="poll.width" [votes]="poll.votes.length"></app-progress>
               </div>
             </div>
             <div class="card-footer d-flex justify-content-center">
-              <button class="btn btn-primary col-md-5 col-12 mt-2" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">Stemmen</button>
+              <button [disabled]="userVoted" (click)="voteClick()" class="btn btn-primary col-md-5 col-12 mt-2" style="background-image: linear-gradient(to right, #DA1B3E, #A2266B, #5735A7)">Stemmen</button>
             </div>
           </div>
         </div>
